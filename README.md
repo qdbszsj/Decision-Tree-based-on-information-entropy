@@ -1,0 +1,1 @@
+# Decision-Tree-based-on-information-entropy
