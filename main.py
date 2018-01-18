@@ -36,12 +36,13 @@ EPS=0.000001
 #the density and honey ratio should be a positive float value or -1
 D=np.arange(0,m,1)
 A=np.ones(n)
+A=list(A)
 A[0]=A[n-1]=-1
 print(A)
 print(D)
 
 
-
+import copy
 def treeGenerate(D,A,title):
     node=Node(title)
     if isSameY(D):#p74 condition(1),samples are in the same cluster
@@ -75,7 +76,8 @@ def treeGenerate(D,A,title):
                 node.children.append(nextNode)
                 #book said we should return here, but I think we should continue
             else:
-                newA=A[:]
+                # newA=A[:]
+                newA = copy.deepcopy(A)
                 newA[p]=-1
                 node.children.append(treeGenerate(Dv,newA,i))
     else:#is a float devide,the floatV is the boundary
@@ -129,7 +131,9 @@ def mostCommonY(D):
     count[res]=1
     for i in range(1,len(D)):
         curV=dataset[D[i],n-1]
-        count[curV]+=1
+        if curV not in count:
+            count[curV]=1
+        else:count[curV]+=1
         if count[curV]>maxC:
             maxC=count[curV]
             res=curV
